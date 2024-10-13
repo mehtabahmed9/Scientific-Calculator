@@ -28,31 +28,11 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 1,
+      "execution_count": null,
       "metadata": {
-        "colab": {
-          "base_uri": "https://localhost:8080/"
-        },
-        "id": "tg5eCJLGdmmE",
-        "outputId": "b218d720-02b1-4c27-dcb6-64a00e9f0f42"
+        "id": "tg5eCJLGdmmE"
       },
-      "outputs": [
-        {
-          "output_type": "stream",
-          "name": "stdout",
-          "text": [
-            "Select operation:\n",
-            "1. Add\n",
-            "2. Subtract\n",
-            "3. Multiply\n",
-            "4. Divide\n",
-            "Enter choice (1/2/3/4): 3\n",
-            "Enter first number: 6\n",
-            "Enter second number: 9\n",
-            "6.0 * 9.0 = 54.0\n"
-          ]
-        }
-      ],
+      "outputs": [],
       "source": [
         "import streamlit as st\n",
         "\n",
