@@ -20,7 +20,7 @@ def power(x, y):
     return np.power(x, y)
 
 def log(x):
-    return np.log(x) if x > 0 else "Logarithm not defined for non-positive numbers!"
+    return np.log(x) if x > 0 else np.nan  # Logarithm for positive numbers only
 
 def sin(x):
     return np.sin(x)
@@ -42,65 +42,68 @@ num2 = st.number_input("Enter second number", format="%.2f")
 # Dropdown to select the operation (basic + scientific + graphical)
 operation = st.selectbox(
     "Select Operation", 
-    ["Add", "Subtract", "Multiply", "Divide", "Power", "Logarithm (num1 only)", 
-     "Sine (num1 only)", "Cosine (num1 only)", "Tangent (num1 only)", "Plot All Operations"]
+    ["Add", "Subtract", "Multiply", "Divide", "Power", 
+     "Logarithm (num1 only)", "Sine (num1 only)", 
+     "Cosine (num1 only)", "Tangent (num1 only)", "Plot All Operations"]
 )
 
-# Initialize result
+# Generate x values for plotting
+x_values = np.linspace(-10, 10, 400)
+
+# Initialize result and y_values for graph
 y_result = None
 y_values = None
 
-# Perform selected operation
+# Perform selected operation and prepare for plotting
 if operation == "Add":
     y_result = add(num1, num2)
-    y_values = add(np.linspace(-10, 10, 400), num1)
+    y_values = add(x_values, num2)  # Adding x values with second input for plotting
 elif operation == "Subtract":
     y_result = subtract(num1, num2)
-    y_values = subtract(np.linspace(-10, 10, 400), num1)
+    y_values = subtract(x_values, num2)
 elif operation == "Multiply":
     y_result = multiply(num1, num2)
-    y_values = multiply(np.linspace(-10, 10, 400), num1)
+    y_values = multiply(x_values, num2)
 elif operation == "Divide":
     y_result = divide(num1, num2)
-    y_values = divide(np.linspace(-10, 10, 400), num1)
+    y_values = divide(x_values, num2)
 elif operation == "Power":
     y_result = power(num1, num2)
-    y_values = power(np.linspace(-10, 10, 400), num1)
+    y_values = power(x_values, num2)
 elif operation == "Logarithm (num1 only)":
     y_result = log(num1)
-    y_values = log(np.linspace(0.1, 10, 400))  # Adjusted for positive values
+    y_values = log(x_values)
 elif operation == "Sine (num1 only)":
     y_result = sin(num1)
-    y_values = sin(np.linspace(-10, 10, 400))
+    y_values = sin(x_values)
 elif operation == "Cosine (num1 only)":
     y_result = cos(num1)
-    y_values = cos(np.linspace(-10, 10, 400))
+    y_values = cos(x_values)
 elif operation == "Tangent (num1 only)":
     y_result = tan(num1)
-    y_values = tan(np.linspace(-10, 10, 400))
+    y_values = tan(x_values)
 elif operation == "Plot All Operations":
     # Plot all basic operations together on the graph
-    x_values = np.linspace(-10, 10, 400)
     fig, ax = plt.subplots()
-    ax.plot(x_values, add(x_values, num1), label="Add")
-    ax.plot(x_values, subtract(x_values, num1), label="Subtract")
-    ax.plot(x_values, multiply(x_values, num1), label="Multiply")
-    ax.plot(x_values, divide(x_values, num1), label="Divide")
+    ax.plot(x_values, add(x_values, num2), label="Add")
+    ax.plot(x_values, subtract(x_values, num2), label="Subtract")
+    ax.plot(x_values, multiply(x_values, num2), label="Multiply")
+    ax.plot(x_values, divide(x_values, num2), label="Divide")
     ax.legend()
     ax.set_title("Basic Operations: Add, Subtract, Multiply, Divide")
     ax.set_xlabel("x")
     ax.set_ylabel("Result")
     st.pyplot(fig)
 
-# Display the result for selected operation
+# Display the result of the selected operation
 if operation != "Plot All Operations" and y_result is not None:
     st.write(f"The result of {operation} is: {y_result}")
 
-# Plot the result of the selected operation
+# Plot the graph for the selected operation
 if operation != "Plot All Operations" and y_values is not None and st.button("Plot Graph"):
     fig, ax = plt.subplots()
-    ax.plot(np.linspace(-10, 10, 400), y_values)
+    ax.plot(x_values, y_values)
     ax.set_title(f"Graph of {operation}")
     ax.set_xlabel("x")
-    ax.set_ylabel("Result")
+    ax.set_ylabel("y")
     st.pyplot(fig)
